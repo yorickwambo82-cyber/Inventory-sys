@@ -84,13 +84,6 @@ function renderStatsCard($title, $value, $icon, $color = 'primary') {
  * @param int $line Line number
  */
 function logError($message, $file = '', $line = 0) {
-    $logFile = __DIR__ . '/../logs/error.log';
-    $logDir = dirname($logFile);
-    
-    if (!file_exists($logDir)) {
-        mkdir($logDir, 0755, true);
-    }
-    
     $timestamp = date('Y-m-d H:i:s');
     $logMessage = "[{$timestamp}] {$message}";
     
@@ -102,9 +95,26 @@ function logError($message, $file = '', $line = 0) {
         $logMessage .= " on line {$line}";
     }
     
+    // If on Vercel (read-only filesystem), write to error log which goes to Runtime Logs
+    if (getenv('VERCEL')) {
+        error_log($logMessage);
+        return;
+    }
+
+    $logFile = __DIR__ . '/../logs/error.log';
+    $logDir = dirname($logFile);
+    
+    if (!file_exists($logDir)) {
+        // Suppress errors if we can't create directory
+        @mkdir($logDir, 0755, true);
+    }
+    
     $logMessage .= PHP_EOL;
     
-    error_log($logMessage, 3, $logFile);
+    // Try to write to file, fallback to system log if fails
+    if (!@error_log($logMessage, 3, $logFile)) {
+        error_log($logMessage);
+    }
 }
 
 /**
