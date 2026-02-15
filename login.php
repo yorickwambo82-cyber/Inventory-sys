@@ -102,6 +102,9 @@ if ($role === 'admin') {
                     $logStmt->bindParam(':ip_address', $_SERVER['REMOTE_ADDR']);
                     $logStmt->execute();
                     
+                    // Ensure session is written before redirect
+                    session_write_close();
+                    
                     // Redirect to admin dashboard
                     header('Location: admin.php');
                     exit();
@@ -174,6 +177,9 @@ elseif ($role === 'employee') {
                     $logStmt->bindParam(':user_id', $user['user_id']);
                     $logStmt->bindParam(':ip_address', $_SERVER['REMOTE_ADDR']);
                     $logStmt->execute();
+                    
+                    // Ensure session is written before redirect
+                    session_write_close();
                     
                     // Redirect to employee dashboard
                     header('Location: employee.php');

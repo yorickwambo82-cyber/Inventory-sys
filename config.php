@@ -43,4 +43,4 @@ function clean_input($data) {
     $data = htmlspecialchars($data);
     return $conn->real_escape_string($data);
 }
-?>
+}

@@ -11,7 +11,8 @@ require_once 'includes/maintenance.php';
 session_start();
 
 // Force session regeneration
-session_regenerate_id(true);
+// Force session regeneration - Disabled for Vercel compatibility
+// session_regenerate_id(true);
 
 // Include database connection
 require_once 'config/database.php';

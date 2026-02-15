@@ -131,4 +131,4 @@ function verifyAdminLogin($username, $password) {
         return null;
     }
 }
-?>
+}
