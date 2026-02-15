@@ -16,16 +16,27 @@ class Database {
     public function getConnection() {
         $this->conn = null;
         try {
+            $port = getenv('DB_PORT') ?: 3306;
+            
+            // Azure/Aiven require SSL. We enable it by default for remote connections.
+            $options = array(
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4",
+                PDO::ATTR_EMULATE_PREPARES => false,
+            );
+
+            // Add SSL if DB_SSL_CA is set or just generally for cloud DBs
+            if (getenv('DB_HOST') !== 'localhost') {
+                $options[PDO::MYSQL_ATTR_SSL_CA] = "/etc/ssl/certs/ca-certificates.crt"; // Default location on Vercel/Linux
+                $options[PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT] = false; // Sometimes needed if cert path is tricky
+            }
+
             $this->conn = new PDO(
-                "mysql:host=" . $this->host . ";dbname=" . $this->db_name,
+                "mysql:host=" . $this->host . ";port=" . $port . ";dbname=" . $this->db_name,
                 $this->username,
                 $this->password,
-                array(
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4",
-                    PDO::ATTR_EMULATE_PREPARES => false
-                )
+                $options
             );
 
             // Create activity_log table if it doesn't exist
@@ -67,7 +78,7 @@ class Database {
                 header('Content-Type: application/json');
                 echo json_encode([
                     'status' => 'error',
-                    'message' => 'Database connection failed. Please contact administrator.'
+                    'message' => 'Database connection failed: ' . $exception->getMessage()
                 ]);
                 exit();
             }
