@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'includes/session.php';
 require_once 'db_config.php';
 
 // Check if user is admin

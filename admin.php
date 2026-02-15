@@ -8,13 +8,13 @@ header("Expires: 0");
 // Check maintenance mode
 require_once 'includes/maintenance.php';
 
-session_start();
+// Initialize session with database handler
+require_once 'includes/session.php';
 
-// Force session regeneration
-// Force session regeneration - Disabled for Vercel compatibility
+// Force session regeneration is handled by the handler or disabled for Vercel
 // session_regenerate_id(true);
 
-// Include database connection
+// Include database connection (already included by session.php but kept for safety)
 require_once 'config/database.php';
 require_once 'includes/logActivity.php';
 
@@ -28,11 +28,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['role'] !== 'admin') {
             error_log('Logout logging failed: ' . $e->getMessage());
         }
     }
-    // DEBUG: Show why we are redirected
-    die("<h1>Debug: Admin Redirect Triggered</h1><p>Reason: Logged in check failed or Role mismatch.</p><p>Logged In: " . (isset($_SESSION['logged_in']) ? 'YES' : 'NO') . "</p><p>Role: " . ($_SESSION['role'] ?? 'NOT SET') . " (Expected: admin)</p><p>Session ID: " . session_id() . "</p><pre>" . print_r($_SESSION, true) . "</pre>");
-    // session_destroy();
-    // header("Location: login.php?logout_success=1&nocache=" . time());
-    // exit();
+    session_destroy();
+    header("Location: login.php?logout_success=1&nocache=" . time());
+    exit();
 }
 
 // Handle logout - REDIRECTS TO login.php

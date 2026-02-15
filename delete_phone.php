@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: application/json');
 
-session_start();
+require_once 'includes/session.php';
 if (!isset($_SESSION['logged_in']) || $_SESSION['role'] !== 'admin') {
     echo json_encode(['success' => false, 'message' => 'Unauthorized access']);
     exit();

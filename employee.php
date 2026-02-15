@@ -8,9 +8,9 @@ header("Expires: 0");
 // Check maintenance mode
 require_once 'includes/maintenance.php';
 
-session_start();
+// Initialize session with database handler
+require_once 'includes/session.php';
 
-// Force session regeneration
 // Force session regeneration - Disabled for Vercel compatibility
 // session_regenerate_id(true);
 

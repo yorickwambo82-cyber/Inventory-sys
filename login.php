@@ -2,8 +2,7 @@
 // Check maintenance mode
 require_once 'includes/maintenance.php';
 
-// Start session
-session_start();
+require_once 'includes/session.php';
 
 // Database configuration
 require_once 'config/database.php';
@@ -199,8 +198,11 @@ elseif ($role === 'employee') {
 // Check if user is already logged in
 if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     if ($_SESSION['role'] === 'admin') {
+        // DEBUG: Trace login redirect
+        // die("<h1>Debug: Login Redirecting to Admin</h1><p>Session Found.</p><pre>" . print_r($_SESSION, true) . "</pre>");
         header('Location: admin.php');
     } else {
+        // die("<h1>Debug: Login Redirecting to Employee</h1><p>Session Found.</p><pre>" . print_r($_SESSION, true) . "</pre>");
         header('Location: employee.php');
     }
     exit();

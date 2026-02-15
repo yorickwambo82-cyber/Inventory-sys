@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'includes/session.php';
 if (!isset($_SESSION['logged_in']) || $_SESSION['role'] !== 'admin') {
     header('Location: login.php');
     exit();

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once 'includes/session.php';
 
 // Check if user is logged in as employee
 if (!isset($_SESSION['logged_in']) || $_SESSION['role'] !== 'employee') {
