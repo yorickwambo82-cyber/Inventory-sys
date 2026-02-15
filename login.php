@@ -130,7 +130,7 @@ if ($role === 'admin') {
                 }
             }
         } catch(PDOException $e) {
-            $error = 'Database error. Please try again later.';
+            $error = 'Database error: ' . $e->getMessage();
         }
     }
 }
@@ -182,7 +182,7 @@ elseif ($role === 'employee') {
                     $error = 'Employee account not found. Please contact your administrator.';
                 }
             } catch(PDOException $e) {
-                $error = 'Database error. Please try again later.';
+                $error = 'Database error: ' . $e->getMessage();
             }
         }
     } else {
