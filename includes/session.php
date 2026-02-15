@@ -103,8 +103,8 @@ try {
     
     $handler = new DbSessionHandler($db);
     
-    // Create connection table if it doesn't exist (can be removed after first run, but safe to keep)
-    $handler->initTable();
+    // Create connection table if it doesn't exist (Checked manually or once)
+    // $handler->initTable();
     
     // Set the custom handler
     session_set_save_handler($handler, true);

@@ -39,22 +39,13 @@ class Database {
                 $options
             );
 
-            // Create activity_log table if it doesn't exist
+            // Create activity_log table - Removed for performance (Table should exist)
+            /* 
             try {
-                $createTableQuery = "CREATE TABLE IF NOT EXISTS activity_log (
-                    log_id INT AUTO_INCREMENT PRIMARY KEY,
-                    user_id INT NOT NULL,
-                    action_type VARCHAR(50) NOT NULL,
-                    description TEXT,
-                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                    INDEX idx_user_id (user_id),
-                    INDEX idx_created_at (created_at),
-                    INDEX idx_action_type (action_type)
-                )";
+                $createTableQuery = "CREATE TABLE IF NOT EXISTS activity_log (...)";
                 $this->conn->exec($createTableQuery);
-            } catch(Exception $e) {
-                error_log("Activity log table creation error: " . $e->getMessage());
-            }
+            } catch(Exception $e) { ... } 
+            */
 
         } catch(PDOException $exception) {
             // Log error to file in production
