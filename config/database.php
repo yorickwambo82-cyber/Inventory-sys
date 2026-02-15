@@ -121,14 +121,13 @@ function verifyAdminLogin($username, $password) {
             }
             
             // If using hashed passwords (for production):
-            // if (password_verify($password, $user['password_hash'])) {
-            //     return $user;
-            // }
+            if (password_verify($password, $user['password_hash'])) {
+                return $user;
+            }
         }
         
         return null;
     } catch(Exception $e) {
         return null;
     }
-}
 }
