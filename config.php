@@ -1,9 +1,9 @@
 <?php
 // Database configuration
-$db_host = getenv('DB_HOST') ?: 'localhost';
-$db_user = getenv('DB_USER') ?: 'root';
-$db_pass = getenv('DB_PASS') ?: '';
-$db_name = getenv('DB_NAME') ?: 'phonestore_db';
+$db_host = trim(getenv('DB_HOST') ?: 'localhost');
+$db_user = trim(getenv('DB_USER') ?: 'root');
+$db_pass = trim(getenv('DB_PASS') ?: '');
+$db_name = trim(getenv('DB_NAME') ?: 'phonestore_db');
 
 $db_port = getenv('DB_PORT') ?: 3306;
 

@@ -7,10 +7,10 @@ class Database {
     public $conn;
 
     public function __construct() {
-        $this->host = getenv('DB_HOST') ?: "localhost";
-        $this->db_name = getenv('DB_NAME') ?: "phonestore_db";
-        $this->username = getenv('DB_USER') ?: "root";
-        $this->password = getenv('DB_PASS') ?: "";
+        $this->host = trim(getenv('DB_HOST') ?: "localhost");
+        $this->db_name = trim(getenv('DB_NAME') ?: "phonestore_db");
+        $this->username = trim(getenv('DB_USER') ?: "root");
+        $this->password = trim(getenv('DB_PASS') ?: "");
     }
 
     public function getConnection() {
