@@ -28,9 +28,11 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['role'] !== 'admin') {
             error_log('Logout logging failed: ' . $e->getMessage());
         }
     }
-    session_destroy();
-    header("Location: login.php?logout_success=1&nocache=" . time());
-    exit();
+    // DEBUG: Show why we are redirected
+    die("<h1>Debug: Admin Redirect Triggered</h1><p>Reason: Logged in check failed or Role mismatch.</p><p>Logged In: " . (isset($_SESSION['logged_in']) ? 'YES' : 'NO') . "</p><p>Role: " . ($_SESSION['role'] ?? 'NOT SET') . " (Expected: admin)</p><p>Session ID: " . session_id() . "</p><pre>" . print_r($_SESSION, true) . "</pre>");
+    // session_destroy();
+    // header("Location: login.php?logout_success=1&nocache=" . time());
+    // exit();
 }
 
 // Handle logout - REDIRECTS TO login.php
